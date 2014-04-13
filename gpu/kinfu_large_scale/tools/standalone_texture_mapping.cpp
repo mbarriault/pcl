@@ -407,6 +407,8 @@ bool readCamPoseFile(std::string filename, pcl::TextureMapping<pcl::PointXYZ>::C
   // go to line 12 to read camera focal length and size
   GotoLine (myReadFile, 12);
   myReadFile >> val; cam.focal_length=val; 
+  myReadFile >> val; cam.center_h=val; 
+  myReadFile >> val; cam.center_w=val; 
   myReadFile >> val; cam.height=val;
   myReadFile >> val; cam.width=val;  
   
