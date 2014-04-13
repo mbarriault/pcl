@@ -361,7 +361,7 @@ pcl::gpu::kinfuLS::KinfuTracker::saveCurrentMaps()
   }  
 }
 
-inline bool 
+bool 
 pcl::gpu::kinfuLS::KinfuTracker::performICP(const Intr& cam_intrinsics, Matrix3frm& previous_global_rotation, Vector3f& previous_global_translation, Matrix3frm& current_global_rotation , Vector3f& current_global_translation)
 {
   
