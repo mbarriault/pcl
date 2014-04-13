@@ -65,7 +65,7 @@ namespace pcl
       const float  WIDTH = 640.0f;
 
       //Should be multiple of 32
-      enum { VOLUME_X = 512, VOLUME_Y = 512, VOLUME_Z = 512 };
+      enum { VOLUME_X = 384, VOLUME_Y = 384, VOLUME_Z = 384 };
 
           
       //Temporary constant (until we make it automatic) that holds the Kinect's focal length
