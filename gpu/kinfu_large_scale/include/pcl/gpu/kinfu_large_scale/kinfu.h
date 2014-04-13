@@ -235,7 +235,7 @@ namespace pcl
             PCL_WARN("ICP is %s\n", !disable_icp_?"ENABLED":"DISABLED");
           }
 
-        private:
+        protected:
           
           /** \brief Allocates all GPU internal buffers.
             * \param[in] rows_arg
