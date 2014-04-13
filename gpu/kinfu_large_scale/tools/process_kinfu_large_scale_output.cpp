@@ -62,30 +62,34 @@ main (int argc, char** argv)
   if (pcl::console::find_switch (argc, argv, "--help") || pcl::console::find_switch (argc, argv, "-h"))
     return print_help ();
 
-  //Reading input cloud
-  pcl::PointCloud<pcl::PointXYZI>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZI>);
-
   if (argc < 2) {
     PCL_ERROR ("No pcd file to read... Exiting...\n");
     print_help ();
     return (-1);
   }
 
-  if (pcl::io::loadPCDFile<pcl::PointXYZI> (argv[1], *cloud) == -1) //* load the file
-  {
-    PCL_ERROR ("Couldn't read file %s \n", argv[1]);
-    print_help ();
-    return (-1);
-  }
-  
   try {
 
     // Creating world model object
     pcl::kinfuLS::WorldModel<pcl::PointXYZI> wm;
   
-    //Adding current cloud to the world model
-    wm.addSlice (cloud);
-  
+    //Reading input cloud
+    pcl::PointCloud<pcl::PointXYZI>::Ptr cloud (new
+    pcl::PointCloud<pcl::PointXYZI>);
+
+    for (int i=1; i<argc; i++)
+    {
+      if(strstr(argv[i],".pcd")==NULL) continue; // there could be several pcd files
+      if (pcl::io::loadPCDFile<pcl::PointXYZI> (argv[i], *cloud) == -1) //* load the file
+      {
+        PCL_ERROR ("Couldn't read file %s \n", argv[i]);
+        print_help ();
+        return (-1);
+      }
+      //Adding current cloud to the world model
+      wm.addSlice (cloud);
+    }
+
     std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> clouds;
     std::vector<Eigen::Vector3f> transforms;
   
