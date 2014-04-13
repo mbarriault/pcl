@@ -136,8 +136,8 @@ pcl::gpu::kinfuLS::KinfuTracker::setDepthIntrinsics (float fx, float fy, float c
 void
 pcl::gpu::kinfuLS::KinfuTracker::setInitialCameraPose (const Eigen::Affine3f& pose)
 {
-  init_Rcam_ = pose.rotation ();
-  init_tcam_ = pose.translation ();
+  rmats_[0] = init_Rcam_ = last_estimated_rotation_ = pose.rotation ();
+  tvecs_[0] = init_tcam_ = last_estimated_translation_ = pose.translation ();
   //reset (); // (already called in constructor)
 }
 
