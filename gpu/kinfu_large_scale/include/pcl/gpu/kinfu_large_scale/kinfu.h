@@ -311,7 +311,7 @@ namespace pcl
             * \param[out] current_global_translation computed global translation
             * \return true if ICP has converged.
             */
-          inline bool 
+          virtual bool 
           performICP(const pcl::device::kinfuLS::Intr& cam_intrinsics, Matrix3frm& previous_global_rotation, Vector3f& previous_global_translation, Matrix3frm& current_global_rotation, Vector3f& current_global_translation);
           
           
