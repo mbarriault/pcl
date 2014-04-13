@@ -266,7 +266,7 @@ namespace pcl
             * \param[out] translationOut1 result of first translation conversion
             * \param[out] translationOut2 result of second translation conversion
             */
-          inline void 
+          void 
           convertTransforms (Matrix3frm& transform_in_1, Matrix3frm& transform_in_2, Eigen::Vector3f& translation_in_1, Eigen::Vector3f& translation_in_2,
                                          pcl::device::kinfuLS::Mat33& transform_out_1, pcl::device::kinfuLS::Mat33& transform_out_2, float3& translation_out_1, float3& translation_out_2);
           
@@ -278,7 +278,7 @@ namespace pcl
             * \param[out] transformOut2 result of second transform conversion
             * \param[out] translationOut result of translation conversion
             */
-          inline void 
+          void 
           convertTransforms (Matrix3frm& transform_in_1, Matrix3frm& transform_in_2, Eigen::Vector3f& translation_in,
                                          pcl::device::kinfuLS::Mat33& transform_out_1, pcl::device::kinfuLS::Mat33& transform_out_2, float3& translation_out);
           
@@ -288,7 +288,7 @@ namespace pcl
             * \param[out] transformOut result of transform conversion
             * \param[out] translationOut result of translation conversion
             */
-          inline void 
+          void 
           convertTransforms (Matrix3frm& transform_in, Eigen::Vector3f& translation_in,
                                          pcl::device::kinfuLS::Mat33& transform_out, float3& translation_out);
           
@@ -298,7 +298,7 @@ namespace pcl
             * \param[in] depth_raw the raw depth map to process
             * \param[in] cam_intrinsics intrinsics of the camera used to acquire the depth map
             */
-          inline void 
+          void 
           prepareMaps (const DepthMap& depth_raw, const pcl::device::kinfuLS::Intr& cam_intrinsics);
  
           /** \brief helper function that performs GPU-based ICP, using vertex and normal maps stored in v/nmaps_curr_ and v/nmaps_g_prev_
@@ -327,7 +327,7 @@ namespace pcl
           performPairWiseICP(const pcl::device::kinfuLS::Intr cam_intrinsics, Matrix3frm& resulting_rotation, Vector3f& resulting_translation);
           
           /** \brief Helper function that copies v_maps_curr and n_maps_curr to v_maps_prev_ and n_maps_prev_ */
-          inline void 
+          void 
           saveCurrentMaps();
           
           /** \brief Cyclical buffer object */
