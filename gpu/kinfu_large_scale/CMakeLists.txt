@@ -14,6 +14,11 @@ else()
     set(REASON)
 endif()
 
+# VTK found?
+if (VTK_FOUND)
+    include_directories(${VTK_INCLUDE_DIRS})
+endif()
+
 PCL_SUBSYS_OPTION(build "${SUBSYS_NAME}" "${SUBSYS_DESC}" ${DEFAULT} "${REASON}")
 PCL_SUBSYS_DEPEND(build "${SUBSYS_NAME}" DEPS ${SUBSYS_DEPS})
 PCL_SET_SUBSYS_INCLUDE_DIR("${SUBSYS_NAME}" "${SUBSYS_PATH}")
