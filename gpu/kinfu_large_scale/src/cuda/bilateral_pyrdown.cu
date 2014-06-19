@@ -43,13 +43,15 @@ namespace pcl
   {
     namespace kinfuLS
     {
-      const float sigma_color = 30;     //in mm
-      const float sigma_space = 4.5;     // in pixels
+      const int radius = 6;             // in pixels
+      const float sigma_color = 30;     // in mm
+      const float sigma_space = 4.5;    // in pixels
 
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       __global__ void
       bilateralKernel (const PtrStepSz<ushort> src, 
                       PtrStep<ushort> dst, 
+                      int R,
                       float sigma_space2_inv_half, float sigma_color2_inv_half)
       {
         int x = threadIdx.x + blockIdx.x * blockDim.x;
@@ -58,7 +60,6 @@ namespace pcl
         if (x >= src.cols || y >= src.rows)
           return;
 
-        const int R = 6;       //static_cast<int>(sigma_space * 1.5);
         const int D = R * 2 + 1;
 
         int value = src.ptr (y)[x];
@@ -138,11 +139,18 @@ namespace pcl
       void
       bilateralFilter (const DepthMap& src, DepthMap& dst)
       {
+        bilateralFilter(src, dst, radius, sigma_color, sigma_space);
+      };
+      
+      //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      void
+      bilateralFilter (const DepthMap& src, DepthMap& dst, int R, float sigmaD, float sigmaP)
+      {
         dim3 block (32, 8);
         dim3 grid (divUp (src.cols (), block.x), divUp (src.rows (), block.y));
 
         cudaFuncSetCacheConfig (bilateralKernel, cudaFuncCachePreferL1);
-        bilateralKernel<<<grid, block>>>(src, dst, 0.5f / (sigma_space * sigma_space), 0.5f / (sigma_color * sigma_color));
+        bilateralKernel<<<grid, block>>>(src, dst, R, 0.5f / (sigmaP * sigmaP), 0.5f / (sigmaD * sigmaD));
 
         cudaSafeCall ( cudaGetLastError () );
       };

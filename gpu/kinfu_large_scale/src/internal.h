@@ -66,6 +66,8 @@ namespace pcl
         */
       void 
       bilateralFilter (const DepthMap& src, DepthMap& dst);
+      void
+      bilateralFilter (const DepthMap& src, DepthMap& dst, int R, float sigmaD, float sigmaP);
       
       /** \brief Computes depth pyramid
         * \param[in] src source
