@@ -56,6 +56,8 @@
 
 #include <pcl/io/vtk_lib_io.h>
 
+#include <pcl/console/parse.h>
+
 using namespace pcl;
 
 /** \brief Save a textureMesh object to obj file */
@@ -466,10 +468,17 @@ main (int argc, char** argv)
   }
   PCL_INFO ("\tLoaded %d textures.\n", my_cams.size ());
   PCL_INFO ("...Done.\n");
+
+  bool vis = true;
+  if ( argc > 2 && strcmp(argv[2],"-novis")==0 ) {
+    vis = false;
+  }
   
-  // Display cameras to user
-  PCL_INFO ("\nDisplaying cameras. Press \'q\' to continue texture mapping\n");
-  showCameras(my_cams, cloud);
+  if ( vis ) {
+    // Display cameras to user
+    PCL_INFO ("\nDisplaying cameras. Press \'q\' to continue texture mapping\n");
+    showCameras(my_cams, cloud);
+  }
 
 
   // Create materials for each texture (and one extra for occluded faces)
