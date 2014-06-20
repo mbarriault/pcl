@@ -90,8 +90,7 @@ pcl::gpu::kinfuLS::StandaloneMarchingCubes<PointT>::getMeshFromTSDFCloud (const 
 
 ///////////////////////////////////////////////////////////////////////////////
 
-//template <typename PointT> std::vector< typename pcl::gpu::StandaloneMarchingCubes<PointT>::MeshPtr >
-template <typename PointT> void
+template <typename PointT> std::vector< typename pcl::gpu::kinfuLS::StandaloneMarchingCubes<PointT>::MeshPtr >
 pcl::gpu::kinfuLS::StandaloneMarchingCubes<PointT>::getMeshesFromTSDFVector (const std::vector<PointCloudPtr> &tsdf_clouds, const std::vector<Eigen::Vector3f> &tsdf_offsets)
 {
   std::vector< MeshPtr > meshes_vector;
@@ -146,12 +145,25 @@ pcl::gpu::kinfuLS::StandaloneMarchingCubes<PointT>::getMeshesFromTSDFVector (con
     
     toPCLPointCloud2 (*cloud_tmp_ptr, (meshes_vector.back () )->cloud);
     
-    std::stringstream name;
-    name << "mesh_" << mesh_counter << ".ply";
-    PCL_INFO ("Saving mesh...%d \n", mesh_counter);
-    pcl::io::savePLYFile (name.str (), *(meshes_vector.back ()));
-    
   }
+
+  return meshes_vector;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+template <typename PointT> void
+pcl::gpu::kinfuLS::StandaloneMarchingCubes<PointT>::writeMeshesVector (const std::vector<MeshPtr> &meshes_vector, const std::string& pfx)
+{
+  int max_iterations = meshes_vector.size();
+  for(int mesh_counter = 0; mesh_counter < max_iterations; ++mesh_counter)
+  {
+    std::stringstream name;
+    name << pfx << mesh_counter << ".ply";
+    PCL_INFO ("Saving mesh...%d \n", mesh_counter);
+    pcl::io::savePLYFile (name.str (), *(meshes_vector.at (mesh_counter)));
+  }
+
   return;
 }
 

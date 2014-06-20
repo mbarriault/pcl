@@ -100,9 +100,17 @@ namespace pcl
       /** \brief Runs marching cubes on every pointcloud in the vector. Returns a vector containing the PolygonMeshes. 
         * \param[in] tsdf_clouds Vector of TSDF Clouds
         * \param[in] tsdf_offsets Vector of the offsets for every pointcloud in TsdfClouds. This offset (in indices) indicates the position of the cloud with respect to the absolute origin of the world model
+        * \param[out] vector containing polygon mesh pointers
+        */
+      std::vector< MeshPtr >
+      getMeshesFromTSDFVector (const std::vector<PointCloudPtr> &tsdf_clouds, const std::vector<Eigen::Vector3f> &tsdf_offsets);
+
+      /** \brief Writes meshes to file according to format string
+        * \param[in] meshes_vector Vector of polygon mesh pointers
+        * \param[in] pfx Filename prefix
         */
       void
-      getMeshesFromTSDFVector (const std::vector<PointCloudPtr> &tsdf_clouds, const std::vector<Eigen::Vector3f> &tsdf_offsets);
+      writeMeshesVector (const std::vector<MeshPtr> &meshes_vector, const std::string& pfx = "mesh_");
       
       /** \brief Returns the associated Tsdf Volume buffer in GPU 
         * \return pointer to the Tsdf Volume buffer in GPU

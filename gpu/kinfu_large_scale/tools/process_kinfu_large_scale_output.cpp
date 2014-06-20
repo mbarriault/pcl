@@ -109,7 +109,7 @@ main (int argc, char** argv)
     //~ boost::shared_ptr<pcl::PolygonMesh> mesh_ptr_;
     //~ std::vector< boost::shared_ptr<pcl::PolygonMesh> > meshes;
 
-    m_cubes.getMeshesFromTSDFVector (clouds, transforms);
+    m_cubes.writeMeshesVector(m_cubes.getMeshesFromTSDFVector (clouds, transforms));
 
     PCL_INFO ("Done!\n");
     return (0);
