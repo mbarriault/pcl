@@ -79,6 +79,7 @@ main (int argc, char** argv)
 
     for (int i=1; i<argc; i++)
     {
+      if ( argv[i][0] == '-' ) continue; // argument switch
       if(strstr(argv[i],".pcd")==NULL) continue; // there could be several pcd files
       if (pcl::io::loadPCDFile<pcl::PointXYZI> (argv[i], *cloud) == -1) //* load the file
       {
