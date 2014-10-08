@@ -282,7 +282,7 @@ namespace pcl
         "addCoordinateSystem (scale, viewport) is deprecated, please use function "
         "addCoordinateSystem (scale, id, viewport) with id a unique string identifier.")
         void
-        addCoordinateSystem (double scale, int viewport = 0);
+        addCoordinateSystem (double scale, int viewport);
 
         /** \brief Adds 3D axes describing a coordinate system to screen at 0,0,0.
           * \param[in] scale the scale of the axes (default: 1)
@@ -303,7 +303,7 @@ namespace pcl
         "addCoordinateSystem (scale, x, y, z, viewport) is deprecated, please use function "
         "addCoordinateSystem (scale, x, y, z, id, viewport) with id a unique string identifier.")
         void
-        addCoordinateSystem (double scale, float x, float y, float z, int viewport = 0);
+        addCoordinateSystem (double scale, float x, float y, float z, int viewport);
 
         /** \brief Adds 3D axes describing a coordinate system to screen at x, y, z
           * \param[in] scale the scale of the axes (default: 1)
@@ -326,7 +326,7 @@ namespace pcl
         "addCoordinateSystem (scale, t, viewport) is deprecated, please use function "
         "addCoordinateSystem (scale, t, id, viewport) with id a unique string identifier.")
         void
-        addCoordinateSystem (double scale, const Eigen::Affine3f& t, int viewport = 0);
+        addCoordinateSystem (double scale, const Eigen::Affine3f& t, int viewport);
 
          /** \brief Adds 3D axes describing a coordinate system to screen at x, y, z, Roll,Pitch,Yaw
            *
@@ -373,7 +373,7 @@ namespace pcl
         "removeCoordinateSystem (viewport) is deprecated, please use function "
         "addCoordinateSystem (id, viewport) with id a unique string identifier.")
         bool
-        removeCoordinateSystem (int viewport = 0);
+        removeCoordinateSystem (int viewport);
 
         /** \brief Removes a previously added 3D axes (coordinate system)
           * \param[in] id the coordinate system object id (default: reference)
@@ -862,6 +862,19 @@ namespace pcl
           return (addPointCloud<pcl::PointXYZRGBA> (cloud, color_handler, id, viewport));
         }
 
+        /** \brief Add a PointXYZL Point Cloud to screen.
+          * \param[in] cloud the input point cloud dataset
+          * \param[in] id the point cloud object id (default: cloud)
+          * \param[in] viewport the view port where the Point Cloud should be added (default: all)
+          */
+        inline bool
+        addPointCloud (const pcl::PointCloud<pcl::PointXYZL>::ConstPtr &cloud,
+                       const std::string &id = "cloud", int viewport = 0)
+        {
+          pcl::visualization::PointCloudColorHandlerLabelField<pcl::PointXYZL> color_handler (cloud);
+          return (addPointCloud<pcl::PointXYZL> (cloud, color_handler, id, viewport));
+        }
+
         /** \brief Updates the XYZ data for an existing cloud object id on screen.
           * \param[in] cloud the input point cloud dataset
           * \param[in] id the point cloud object id to update (default: cloud)
@@ -898,6 +911,19 @@ namespace pcl
         {
           pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGBA> color_handler (cloud);
           return (updatePointCloud<pcl::PointXYZRGBA> (cloud, color_handler, id));
+        }
+
+        /** \brief Updates the XYZL data for an existing cloud object id on screen.
+          * \param[in] cloud the input point cloud dataset
+          * \param[in] id the point cloud object id to update (default: cloud)
+          * \return false if no cloud with the specified ID was found
+          */
+        inline bool
+        updatePointCloud (const pcl::PointCloud<pcl::PointXYZL>::ConstPtr &cloud,
+                          const std::string &id = "cloud")
+        {
+          pcl::visualization::PointCloudColorHandlerLabelField<pcl::PointXYZL> color_handler (cloud);
+          return (updatePointCloud<pcl::PointXYZL> (cloud, color_handler, id));
         }
 
         /** \brief Add a PolygonMesh object to screen

@@ -137,6 +137,7 @@ pcl::visualization::PCLVisualizer::PCLVisualizer (const std::string &name, const
   update_fps_->pcl_visualizer = this;
   update_fps_->decimated = false;
   ren->AddActor (txt);
+  txt->SetInput("0 FPS");
 
   // Create a RendererWindow
   win_ = vtkSmartPointer<vtkRenderWindow>::New ();
@@ -187,7 +188,7 @@ pcl::visualization::PCLVisualizer::PCLVisualizer (int &argc, char **argv, const 
   , style_ (style)
   , cloud_actor_map_ (new CloudActorMap)
   , shape_actor_map_ (new ShapeActorMap)
-  , coordinate_actor_map_ ()
+  , coordinate_actor_map_ (new CoordinateActorMap)
   , camera_set_ ()
   , camera_file_loaded_ (false)
 {
@@ -1951,6 +1952,7 @@ pcl::visualization::PCLVisualizer::setCameraPosition (
       cam->SetPosition (pos_x, pos_y, pos_z);
       cam->SetFocalPoint (view_x, view_y, view_z);
       cam->SetViewUp (up_x, up_y, up_z);
+      renderer->ResetCameraClippingRange ();
     }
     ++i;
   }
@@ -2210,7 +2212,7 @@ pcl::visualization::PCLVisualizer::addCube (float x_min, float x_max,
   vtkSmartPointer<vtkDataSet> data = createCube (x_min, x_max, y_min, y_max, z_min, z_max);
 
   // Create an Actor
-  vtkSmartPointer<vtkActor> actor;
+  vtkSmartPointer<vtkLODActor> actor;
   createActorFromVTKDataSet (data, actor);
   actor->GetProperty ()->SetRepresentationToWireframe ();
   actor->GetProperty ()->SetLighting (false);
@@ -4194,7 +4196,10 @@ void
 pcl::visualization::PCLVisualizer::setPosition (int x, int y)
 {
   if (win_)
+  {
     win_->SetPosition (x, y);
+    win_->Render ();
+  }
 }
  
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -4202,7 +4207,10 @@ void
 pcl::visualization::PCLVisualizer::setSize (int xw, int yw)
 {
   if (win_)
+  {
     win_->SetSize (xw, yw);
+    win_->Render ();
+  }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -4478,7 +4486,9 @@ pcl::visualization::PCLVisualizer::getUniqueCameraFile (int argc, char **argv)
       boost::filesystem::path path (argv[p_file_indices[i]]);
       if (boost::filesystem::exists (path))
       {
+#if BOOST_VERSION >= 104800
         path = boost::filesystem::canonical (path);
+#endif
         str = path.string ().c_str ();
         sha1.process_bytes (str, std::strlen (str));
         valid = true;
